@@ -1,5 +1,22 @@
 const blogsModel = require('../models/blogs')
 
+const getBlogs = async (req, res) => {
+    const {search} = req.query;
+    try {
+        if (search){
+            const rows = await blogsModel.getallsearch(search);
+
+        } else {
+            const [data] = await blogsModel.getAll();
+        }
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+            data:[,]
+        });
+    }
+}
+
 const getbyid = async (req, res) => {
     const { id } = req.params;
     const {userId} = req.query;
@@ -49,7 +66,20 @@ const getbyid = async (req, res) => {
     }
 };
 
+const update = async (req, res) => {
+    const {id} = req.params;
+    const {body, file} = req;
+    const image = file.filename;
+    try {
+        await blogsModel.update(id,body,image);
+        body.image = 'http://localhost:4000/assets/' + image;
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     getbyid,
+    update
     
 }

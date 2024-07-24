@@ -35,6 +35,24 @@ const getbyid = async(id) => {
                                  return rows;
 }
 
+const getallsearch = (search) => {
+    const SQLQuery = 'SELECT * FROM blogs WHERE title LIKE ?';
+    const searchParam = `%${search}%`;
+    return dbPool.execute(SQLQuery, [searchParam])
+    .then(([results, fields]) => results);
+}
+
+const update = (id, body, image) => {
+    const SQLQuery = `UPDATE blogs
+                        SET title = ?, description = ?, image = ?, status = ?, video_url = ?
+                            WHERE id = ?`;
+
+    return dbPool.execute(SQLQuery, [body.title, body.description, image, body.status, body.video_url, id]);
+}
+
 module.exports ={
     getbyid,
+    getallsearch,
+    update,
+
 }
