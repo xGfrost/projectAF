@@ -80,6 +80,7 @@ const update = async (req, res) => {
 
 module.exports = {
     getbyid,
-    update
+    update,
+    getBlogs,
     
 }
