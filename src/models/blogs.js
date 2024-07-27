@@ -36,7 +36,7 @@ const getbyid = async(id) => {
 }
 
 const getallsearch = (search) => {
-    const SQLQuery = 'SELECT * FROM blogs WHERE title LIKE ?';
+    const SQLQuery = `SELECT * FROM blogs WHERE title LIKE ? AND type = 'BLOG'`;
     const searchParam = `%${search}%`;
     return dbPool.execute(SQLQuery, [searchParam])
     .then(([results, fields]) => results);

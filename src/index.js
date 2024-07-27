@@ -24,11 +24,6 @@ app.post('/upload', upload.single('image'), (req,res) =>{
         message: 'Upload Berhasil'
     })
 })
-app.use((err, req, res, next) => {
-    res.json({
-        message:err.message
-    })
-})
 
 
 app.listen(PORT, () => {
