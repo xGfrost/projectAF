@@ -8,7 +8,11 @@ router.get('/',blogsController.getBlogs);
 
 router.get('/:id', blogsController.getbyid);
 
-router.post('/:id', blogsController.update);
+router.post('/update/:id', blogsController.update);
+
+router.post('/delete/:id',blogsController.deleteid );
+
+router.post('/',blogsController.createNew);
 
 
 

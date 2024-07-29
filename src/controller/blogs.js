@@ -1,18 +1,26 @@
-const blogsModel = require('../models/blogs')
+const blogsModel = require('../models/blogs');
 
 const getBlogs = async (req, res) => {
     const {search} = req.query;
     try {
         if (search){
             const rows = await blogsModel.getallsearch(search);
+            res.status(200).json({
+                message:'Success',
+                data:rows
+            })
 
         } else {
             const [data] = await blogsModel.getAll();
+            res.status(200).json({
+                message:'Success',
+                data:data
+            })
         }
     } catch (error) {
         res.status(400).json({
             message: error.message,
-            data:[,]
+            data:[]
         });
     }
 }
@@ -73,8 +81,51 @@ const update = async (req, res) => {
     try {
         await blogsModel.update(id,body,image);
         body.image = 'http://localhost:4000/assets/' + image;
+        res.status(200).json({
+            message: 'Success',
+            data: id,
+            ...body
+        })
     } catch (error) {
-        
+        res.status(400).json({
+            message: error.message,
+            data:[]
+        });
+    }
+}
+
+const createNew = async(req,res) =>{
+    const {body,file}= req;
+    const image = file.filename;
+    try {
+        await blogsModel.createNew(body, image);
+        body.image = 'http://localhost:4000/assets/' + image;
+        res.status(201).json({
+            message: 'Success',
+            data: body,
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+            data:body
+        });
+    }
+}
+
+const deleteid = async (req, res)=> {
+    const {id} = req.params;
+    try {
+        await blogsModel.deleteid(id)
+        res.status(201).json({
+            message: 'Success',
+            data: null,
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+            data: null
+        });
     }
 }
 
@@ -82,5 +133,7 @@ module.exports = {
     getbyid,
     update,
     getBlogs,
+    createNew,
+    deleteid,
     
 }

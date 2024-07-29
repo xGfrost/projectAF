@@ -35,11 +35,18 @@ const getbyid = async(id) => {
                                  return rows;
 }
 
+const getAll = () => {
+    const SQLQuery = `SELECT * FROM blogs WHERE type = 'BLOG' `;
+
+    return dbPool.execute(SQLQuery);
+}
+
 const getallsearch = (search) => {
-    const SQLQuery = 'SELECT * FROM blogs WHERE title LIKE ?';
+    const SQLQuery = `SELECT * FROM blogs WHERE title LIKE ? AND type = 'BLOG'`;
     const searchParam = `%${search}%`;
     return dbPool.execute(SQLQuery, [searchParam])
-    .then(([results, fields]) => results);
+    // eslint-disable-next-line no-unused-vars
+    .then(([results, _]) => results);
 }
 
 const update = (id, body, image) => {
@@ -50,9 +57,25 @@ const update = (id, body, image) => {
     return dbPool.execute(SQLQuery, [body.title, body.description, image, body.status, body.video_url, id]);
 }
 
+const createNew = (body, image) => {
+    const id = cuid();
+    const SQLQuery = `INSERT INTO blogs (id, title, description, image, status, type, video_url)
+                        VALUES (?,?,?,?,?,?,?)`;
+
+                        return dbPool.execute(SQLQuery, [id, body.title,body.description,image,body.status,body.type,body.video_url]);
+}
+
+const deleteid = (id) => {
+    const SQLQuery = `DELETE FROM blogs WHERE id = ?`;
+    return dbPool.execute(SQLQuery, [id]);
+}
+
 module.exports ={
     getbyid,
     getallsearch,
     update,
+    getAll,
+    deleteid,
+    createNew,
 
 }
