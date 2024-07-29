@@ -38,6 +38,7 @@ app.post('/upload', upload.single('image'), (req,res) =>{
         message: 'Upload Berhasil'
     })
 })
+<<<<<<< HEAD
 
 app.use('/api/educations', upload.single('image'), educationsRoutes);
 app.post('/upload', upload.single('image'), (req,res) =>{
@@ -47,6 +48,8 @@ app.post('/upload', upload.single('image'), (req,res) =>{
     })
 })
 app.use('/api/comments', upload.none(), commentsRoutes);
+=======
+>>>>>>> e1dffb853cc5791ca49e81f1a6ce71fd2c684571
 
 app.use('/api/admin_pos', upload.none(), admin_posRoutes);
 
